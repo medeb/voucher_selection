@@ -50,6 +50,20 @@ This API takes the below req
             "voucher_amount": 2640.0
          }
  
+### Segment Configuration 
+
+        {
+        "lower_bound": 5,
+        "upper_bound": 13,
+        "segment_type": "5-13"
+        }
+In segment configuration one can define the segments conf. We can add any new configuration here based on the requirement like to support 37+ orders we can just a new config and build the image.
+        
+        {
+        "lower_bound": 38,
+        "upper_bound": null,
+        "segment_type": "37+"
+        }
 
 ### How to run this app
 
