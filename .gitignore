@@ -16,7 +16,7 @@ pyvenv.cfg
 .venv
 /venv
 pip-selfcheck.json
-/resources/*
+# /resources/*
 ### JetBrains template
 
 # User-specific stuff:

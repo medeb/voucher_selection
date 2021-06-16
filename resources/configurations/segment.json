@@ -1,0 +1,49 @@
+[
+  {
+    "lower_bound": 0,
+    "upper_bound": 30,
+    "segment_type": "0-30"
+  },
+  {
+    "lower_bound": 121,
+    "upper_bound": 180,
+    "segment_type": "121-180"
+  },
+  {
+    "lower_bound": 180,
+    "upper_bound": null,
+    "segment_type": "180+"
+  },
+  {
+    "lower_bound": 30,
+    "upper_bound": 60,
+    "segment_type": "30-60"
+  },
+  {
+    "lower_bound": 61,
+    "upper_bound": 90,
+    "segment_type": "61-90"
+  },
+  {
+    "lower_bound": 91,
+    "upper_bound": 120,
+    "segment_type": "91-120"
+  },
+  {
+    "lower_bound": 0,
+    "upper_bound": 4,
+    "segment_type": "0-4"
+  },
+  {
+    "lower_bound": 14,
+    "upper_bound": 37,
+    "segment_type": "14-37"
+  },
+  {
+    "lower_bound": 5,
+    "upper_bound": 13,
+    "segment_type": "5-13"
+  }
+]
+
+
