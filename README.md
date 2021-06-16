@@ -15,12 +15,12 @@ The structure looks like this :
     --resources
         configurations
             __init__.py
-            segment.json
+            segment.json # segment configuration 
         __init__.py
         data.parquet.gzip # raw compressed data
         peru_processed_data.pkl # pre-processed data country used as prefix
         
-        
+       
 Instead of lambda I'm using one API to trigger the data pre-processing part. The api is `http://127.0.0.1:5000/refresh` we have to manually call this api if pre-processing is needed.
 It's a POST api and expect the below req
         
