@@ -65,6 +65,6 @@ def voucher_selection_helper(country_code, segment_name, lower_bound, upper_boun
 
     except Exception as ex:
         return {
-            "msg": f"Error occurred for {country_code}, please check if we have done pre processing for this country "
+            "msg": f"Error occurred for {country_code}, please check if we have  pre-processed for this country "
                    f"or not "
         }

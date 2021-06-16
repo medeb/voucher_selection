@@ -88,7 +88,7 @@ def refresh_data_service(req):
 
 
 def voucher_selection_service(request):
-    segment_name = request.get('segment_name')
+    segment_name = request.get('segment_name').lower()
     country_code = request.get('country_code').lower()
 
     if country_code not in _supported_country:
