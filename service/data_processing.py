@@ -12,12 +12,12 @@ _supported_segment = ['frequent_segment', 'recency_segment']
 def refresh_data_service(req):
     try:
         country_code = req.get('country_code').lower()
-        data = pd.read_parquet(SRC_FILE_PATH, engine='pyarrow')
+        data = pd.read_parquet(SRC_FILE_PATH, engine='pyarrow') # read the raw file
         # display(data)
         # data.country_code.unique()
         # data.groupby("voucher_amount").agg({'voucher_amount': ['count']})
 
-        filtered_df = data[data['country_code'].str.lower() == country_code]
+        filtered_df = data[data['country_code'].str.lower() == country_code] # filter the country
         # filtered_df.country_code.unique()
         filtered_df['total_orders'] = filtered_df['total_orders'].apply(pd.to_numeric, errors='coerce')
         filtered_df['total_orders'] = filtered_df['total_orders'].fillna(0.0).astype('int')
