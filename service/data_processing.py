@@ -7,17 +7,20 @@ from service.constants import SRC_FILE_PATH, PKL_FILE_PATH, SEGMENT_CONFIG_PATH
 from service.support import voucher_selection_helper, create_frequent_segment, create_recency_segment
 
 _supported_segment = ['frequent_segment', 'recency_segment']
+_supported_country = ['china', 'peru', 'australia', 'latvia']
 
 
 def refresh_data_service(req):
     try:
         country_code = req.get('country_code').lower()
-        data = pd.read_parquet(SRC_FILE_PATH, engine='pyarrow') # read the raw file
+        if country_code not in _supported_country:
+            return {"msg": "Requested country not supported"}
+        data = pd.read_parquet(SRC_FILE_PATH, engine='pyarrow')  # read the raw file
         # display(data)
         # data.country_code.unique()
         # data.groupby("voucher_amount").agg({'voucher_amount': ['count']})
 
-        filtered_df = data[data['country_code'].str.lower() == country_code] # filter the country
+        filtered_df = data[data['country_code'].str.lower() == country_code]  # filter the country
         # filtered_df.country_code.unique()
         filtered_df['total_orders'] = filtered_df['total_orders'].apply(pd.to_numeric, errors='coerce')
         filtered_df['total_orders'] = filtered_df['total_orders'].fillna(0.0).astype('int')
@@ -87,6 +90,9 @@ def refresh_data_service(req):
 def voucher_selection_service(request):
     segment_name = request.get('segment_name')
     country_code = request.get('country_code').lower()
+
+    if country_code not in _supported_country:
+        return {"msg": "Requested country not supported"}
 
     if segment_name == 'frequent_segment':
         total_orders = int(request.get('total_orders', 0))

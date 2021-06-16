@@ -50,15 +50,21 @@ def create_recency_segment(processed_df):
 
 
 def voucher_selection_helper(country_code, segment_name, lower_bound, upper_bound):
-    df = pd.read_pickle(PKL_FILE_PATH.replace('{COUNTRY}', country_code))
-    cols = ['voucher_amount']
-    result_set = df.loc[(df['segment_name'] == segment_name) & (df['lower_bound'] <= lower_bound) & (
-            (df['upper_bound'] >= upper_bound) | (df['upper_bound'].isnull())), cols]
+    try:
+        df = pd.read_pickle(PKL_FILE_PATH.replace('{COUNTRY}', country_code))
+        cols = ['voucher_amount']
+        result_set = df.loc[(df['segment_name'] == segment_name) & (df['lower_bound'] <= lower_bound) & (
+                (df['upper_bound'] >= upper_bound) | (df['upper_bound'].isnull())), cols]
 
-    result_set_to_json = {}
-    if result_set.empty:
-        result_set_to_json['msg'] = 'Out of bound, try adding configuration for 37+ orders in segment json'
-    else:
-        result_set_to_json = json.loads(result_set.to_json(orient='records', lines=True))
+        result_set_to_json = {}
+        if result_set.empty:
+            result_set_to_json['msg'] = 'Out of bound, try adding configuration for 37+ orders in segment json'
+        else:
+            result_set_to_json = json.loads(result_set.to_json(orient='records', lines=True))
+        return result_set_to_json
 
-    return result_set_to_json
+    except Exception as ex:
+        return {
+            "msg": f"Error occurred for {country_code}, please check if we have done pre processing for this country "
+                   f"or not "
+        }
