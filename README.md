@@ -1,48 +1,3 @@
-# Voucher Selection API 
-
-### The data pipeline
-
-Please note, the data might have invalid values and unexpected issues. Ensure that data cleaning and preparation was done properly.
-Requirements
-
-The task is to provide the most used voucher value for different customer groups (segments). The segments should be calculated in the pipeline.
-How to select a voucher?
-
-On the request customer object will be provided:
-
-    { 
-    "customer_id": 123, 
-	 "country_code": "Peru", 
-	 "last_order_ts": "2018-05-03 00:00:00",  
-	 “first_order_ts”: "2017-05-03 00:00:00", 
-	 "total_orders": 15, 
-	 "segment_name": "recency_segment" 
-    }
-
-Where segment_name - the name of the segment created in the pipeline.
-Based on the segment_name a specific voucher should be provided.
-
-You should implement the segments below:
-
-frequent_segment -  number of orders for customer
-Segments variants:
-
-    "0-4" - customers which have done 0-4 orders 
-    "5-13" - customers which have done 5-13 orders
-    "14-37" - customers which have done 14-37 orders    
-recency_segment -  days since last customer order by a customer
-Segments variants:
-
-    "30-60" - 30-60 days since the last order
-    "61-90" - 61-90 days since the last order
-    "91-120" - 91-120 days since the last order
-    "121-180" - 121-180 days since the last order
-    "180+" - more than 180 days since the last order
-
-Requirements
-0. The solution should be simple but reliable.
-1. The solution should be integrated with REST API.
-
 ### Approach
 We can divide this problem into two stages:
         1. Preprocessing of data
@@ -82,7 +37,7 @@ The other API[POST] is `http://127.0.0.1:5000/select-voucher`
 This API takes the below req
         
           { 
-            "customer_id": 123, 
+             "customer_id": 123, 
              "country_code": "Peru", 
              "last_order_ts": "2018-05-03 00:00:00",  
              "first_order_ts": "2017-05-03 00:00:00", 
