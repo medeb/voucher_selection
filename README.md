@@ -43,17 +43,17 @@ Requirements
 0. The solution should be simple but reliable.
 1. The solution should be integrated with REST API.
 
-##Approach
+### Approach
 We can divide this problem into two stages:
         1. Preprocessing of data
         2. API to read from processed data
-Solution With AWS:
+### Solution With AWS:
     Since we're getting the data in a compressed file format it would be better to store the file in AWS S3.
     Whenever we upload a new file a AWS lambda will be triggered for the data processing and it will store the 
     data as _'**pkl**'_ file based on country.
     Now whenever we're going to call the voucher selection api we can just load the preprocessed 'pkl' file and return the required. 
 
-Local env solution:
+### Local env solution:
     I tried to mimic the same behaviour like AWS solution but instead ASW s3 
     I'm storing all the raw and processed file in the resources folder(local storage). 
     The structure looks like this : 
@@ -84,11 +84,11 @@ Local env solution:
   The other API[POST] is `http://127.0.0.1:5000/select-voucher` 
   This API takes the below req
         
-        { 
+          { 
             "customer_id": 123, 
              "country_code": "Peru", 
              "last_order_ts": "2018-05-03 00:00:00",  
-             “first_order_ts”: "2017-05-03 00:00:00", 
+             "first_order_ts": "2017-05-03 00:00:00", 
              "total_orders": 15, 
              "segment_name": "recency_segment" 
             }
@@ -97,3 +97,54 @@ Local env solution:
          {
             "voucher_amount": 2640.0
          }
+ 
+
+### How to run this app
+
+Clone this repo, it might take some time(40-50secs) as I have uploaded both raw and processed data.
+Once it's done go to the folder `voucher_selection` and run the command `docker-compose up`, once it's up and running
+open postman or any api verification tool or curl or python app and call the API : Default port `5000` port and host `127.0.0.1`
+     
+    import requests
+    url = 'http://127.0.0.1:5000/select-voucher'
+    req = { 
+            "customer_id": 123, 
+             "country_code": "Peru", 
+             "last_order_ts": "2018-05-03 00:00:00",  
+             "first_order_ts": "2017-05-03 00:00:00", 
+             "total_orders": 15, 
+             "segment_name": "recency_segment" 
+           }
+    res= requests.post(url, json=req)
+    print(res.text)
+
+
+TO REFRESH DATA use the below
+
+    import requests
+    url = 'http://127.0.0.1:5000/refresh'
+    req = {
+            "country_code": "Peru"
+          }
+    res= requests.post(url, json=req)
+    print(res.text)
+    
+CURL REQUESTS
+
+    curl --location --request POST 'http://127.0.0.1:5000/select-voucher' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "customer_id": 123,
+        "country_code": "Peru",
+        "last_order_ts": "2018-05-03 00:00:00",
+        "first_order_ts": "2018-03-04 00:00:00",
+        "total_orders": 0,
+        "segment_name": "recency_segment"
+    }'
+   
+    curl --location --request POST 'http://127.0.0.1:5000/refresh' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "country_code": "Peru"
+    }'
+      
