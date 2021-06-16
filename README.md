@@ -1,4 +1,4 @@
-### Approach
+# Approach
 We can divide this problem into two stages:
         1. Preprocessing of data
         2. API to read from processed data
